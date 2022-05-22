@@ -35,7 +35,7 @@ print('''
 
 url = r.input("🔴 Porn-[yellow]Hub[/yellow] Video/Playlist Url:\n ")
 
-directory = '/Users/edoardo/Documents/phmedia'
+directory = 'C:/Downloads/phmedias' # <== edit this to your preference
 
 print(f"📂 Folder Directory: {directory}")
 
