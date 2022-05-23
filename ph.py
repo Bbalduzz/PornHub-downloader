@@ -103,7 +103,7 @@ def pornstar():
     soup = BeautifulSoup(page.content, 'html.parser')
     finder = soup.find(class_='nameSubscribe')
     name = finder.find(itemprop='name').text.replace('\n', '').strip()
-    r.print(f"🔭 [magenta]{name}[/magenta]'s profile is being scraped. Press [green]enter[/green] to star")
+    r.print(f"🔭 [magenta]{name}[/magenta]'s profile is being scraped. Kinda long process. Have a coffe mate")
     urls = []
     for i in range(1,10):
         Url = f'{url}/videos/upload?page={i}'
