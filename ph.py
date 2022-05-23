@@ -98,6 +98,7 @@ def playlist():
         
         print(f'🧲[green] {vid_title} has been downloaded[/green]')
         
+# little problem
 def pornstar():
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
