@@ -4,7 +4,6 @@ from rich import print
 from rich.console import Console
 from bs4 import BeautifulSoup
 import requests
-import keyboard
 import urllib.request
 from urllib.error import HTTPError
 
@@ -143,12 +142,10 @@ def pornstar():
                 'no_warnings': False,
                 'ignoreerrors': True,
             }
-            input()
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([v])
             
             print(f'🧲[green] {vid_title} has been downloaded[/green]')
-            keyboard.press_and_release('enter')
 
 if 'playlist' in url:
     playlist()
