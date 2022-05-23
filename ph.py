@@ -4,6 +4,9 @@ from rich import print
 from rich.console import Console
 from bs4 import BeautifulSoup
 import requests
+import keyboard
+import urllib.request
+from urllib.error import HTTPError
 
 r = Console()
 
@@ -92,9 +95,63 @@ def playlist():
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([v])
         
+        
         print(f'🧲[green] {vid_title} has been downloaded[/green]')
+        
+def pornstar():
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    finder = soup.find(class_='nameSubscribe')
+    name = finder.find(itemprop='name').text.replace('\n', '').strip()
+    r.print(f"🔭 [magenta]{name}[/magenta]'s profile is being scraped. Press [green]enter[/green] to star")
+    urls = []
+    for i in range(1,10):
+        Url = f'{url}/videos/upload?page={i}'
+        urls.append(Url)
+    valid_urls = []
+    for u in urls:
+        try:
+            urllib.request.urlopen(u).getcode()
+            valid_urls.append(u)
+        except HTTPError:
+            urls.remove(u)
+    ## begin webscraping
+    for vu in valid_urls:
+        vids = []
+        page = requests.get(vu)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        videos = soup.find_all('a', {'href': True})
+        for video in videos:
+            vid = video['href']
+            if 'view_video.php?' in vid:
+                vidUrl = f'https://www.pornhub.com{vid}'
+                vids.append(vidUrl)
+        for vi in vids:
+            if vids.count(vi)>1:
+                vids.remove(vi)
+            new_list = vids[next((i+2 for i, vi in enumerate(vids) if '&pkey=' in vi), len(vids)):]
+        for v in new_list:
+            page = requests.get(v)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            vid_title = soup.find('span',{'class':'inlineFree'}).contents[0]
+            dir = directory+f'/pornstars/{name}/%(title)s.%(ext)s'
+            ydl_opts = {
+                'format': 'best',
+                'outtmpl': dir,
+                'nooverwrites': True,
+                'no_warnings': False,
+                'ignoreerrors': True,
+            }
+            input()
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([v])
+            
+            print(f'🧲[green] {vid_title} has been downloaded[/green]')
+            keyboard.press_and_release('enter')
 
 if 'playlist' in url:
     playlist()
+elif 'pornstar' in url:
+    pornstar()
 else:
     video()
