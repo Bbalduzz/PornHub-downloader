@@ -6,9 +6,6 @@ A simple script to download in local storage videos from the most famous adult s
 
 - This script is capale of downloading single **videos** or *playslist*. 
 - The user doesn't need to specify anything except the `directory` variable in the script, in which is needed to decleare the path to download the medias
-
-### 📦 To do
-
 - models page scraping
 
 ### made possible by
