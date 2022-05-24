@@ -35,7 +35,7 @@ print('''
                                                                     
 ''')
 
-url = r.input("🔴 Porn-[yellow]Hub[/yellow] Video/Playlist Url:\n ")
+url = r.input("🔴 Porn-[yellow]Hub[/yellow] Url:\n ")
 
 directory = 'C:/Downloads/phmedias' # <== edit this to your preference
 
