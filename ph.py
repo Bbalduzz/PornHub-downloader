@@ -63,6 +63,7 @@ def video():
                 ydl.download([url])
 
             print(f'🧲[green] {vid_title} has been downloaded[/green]')
+            go = False
         
 def playlist():
     vids = []
