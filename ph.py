@@ -44,13 +44,14 @@ print(f"📂 Folder Directory: {directory}")
 def video():
     go = True
     while go:
-        if url == '':
-            go = False
-        else:
-            dir = directory+'/videos/%(title)s.%(ext)s'
+        go = input('continue? (y/N): ')
+        if go == 'y':
+            url = r.input("🔴 Porn-[yellow]Hub[/yellow] Video/Playlist Url:\n ")
             page = requests.get(url)
             soup = BeautifulSoup(page.content, 'html.parser')
             vid_title = soup.find('span',{'class':'inlineFree'}).contents[0]
+            print(f'Video Found:[yellow] {vid_title} [/yellow]')
+            dir = directory+'/videos/%(title)s.%(ext)s'
             ydl_opts = {
                 'format': 'best',
                 'outtmpl': dir,
@@ -63,6 +64,7 @@ def video():
                 ydl.download([url])
 
             print(f'🧲[green] {vid_title} has been downloaded[/green]')
+        else:
             go = False
         
 def playlist():
