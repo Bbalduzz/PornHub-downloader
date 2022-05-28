@@ -148,9 +148,57 @@ def pornstar():
                 ydl.download([v])
             
             print(f'🧲[green] {vid_title} has been downloaded[/green]')
+            
+def photos():
+    if 'public' not in url:
+        Url = f'{url}/public'
+    else:
+        pass
+    page = requests.get(Url)
+    soup = BeautifulSoup(page.content,'html.parser')
+    finder = soup.find(class_='nameSubscribe')
+    name = finder.find(itemprop='name').text.replace('\n', '').strip()
+    albums = soup.find_all('a',{'href':True})
+    # get the valid albums links
+    album_links = []
+    for album in albums:
+        album_link_suffix = album['href']
+        if 'album' in album_link_suffix:
+            album_url = f'https://www.pornhub.com{album_link_suffix}'
+            album_links.append(album_url)
+    # get the valid images links
+    img_links = []
+    for al in album_links:
+        page = requests.get(al)
+        soup = BeautifulSoup(page.content,'html.parser')
+        title = soup.find('h1',{'class':'photoAlbumTitleV2'}).text
+        print(f"🔭 Scanning {name} [magenta]{title}[/magenta] album...")
+        images = soup.find_all('a',{'href':True})
+        for img in images:
+            img_link_suffix = img['href']
+            if 'photo' in img_link_suffix:
+                img_url = f'https://www.pornhub.com{img_link_suffix}'
+                img_links.append(img_url)
+    # downlaod images
+    for image in img_links:
+        checker = image.rsplit('/', 1)[1]
+        page = requests.get(image)
+        soup = BeautifulSoup(page.content,'html.parser')
+        model_photos = soup.find_all('img',{'src':True})
+        a = 1
+        for photo in model_photos:
+            if checker in photo:
+                photo_link = photo['scr']
+                photo_url = f'https://www.pornhub.com/{photo_link}'
+                img_data = requests.get(photo_url).content
+                with open(f'{directory}/photos/{name}/photo %s.jpg','wb') as handler:
+                    handler.write(img_data)
+                a = a+1
 
 if 'playlist' in url:
     playlist()
+elif 'photos' in url:
+    photos()
 elif 'pornstar' in url:
     pornstar()
 else:
