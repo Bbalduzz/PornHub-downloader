@@ -7,6 +7,8 @@ A simple script to download in local storage videos from the most famous adult s
 - This script is capale of downloading single **videos** or *playslist* or ***models pages***
 - The user doesn't need to specify anything except the `directory` variable in the script, in which is needed to decleare the path to download the medias
 - models page scraping
+  - downlaod all videos
+  - download albums
 
 ## 🖼 Preview
 <img src="https://github.com/Bbalduzz/PornHub-downloader/blob/main/images/gui.png" width="50%" height="50%">
