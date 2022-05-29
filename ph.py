@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import requests
 import urllib.request
 from urllib.error import HTTPError
+import os
 
 r = Console()
 
@@ -150,14 +151,11 @@ def pornstar():
             print(f'🧲[green] {vid_title} has been downloaded[/green]')
             
 def photos():
-    if 'public' not in url:
-        Url = f'{url}/public'
-    else:
-        pass
-    page = requests.get(Url)
+    page = requests.get(url)
     soup = BeautifulSoup(page.content,'html.parser')
     finder = soup.find(class_='nameSubscribe')
     name = finder.find(itemprop='name').text.replace('\n', '').strip()
+    print(f'🔭 Scraping [magenta]{name}[/magenta] albums...')
     albums = soup.find_all('a',{'href':True})
     # get the valid albums links
     album_links = []
@@ -166,34 +164,48 @@ def photos():
         if 'album' in album_link_suffix:
             album_url = f'https://www.pornhub.com{album_link_suffix}'
             album_links.append(album_url)
+        new_list = album_links[next((i+1 for i, album in enumerate(album_links) if 'albums?search=boobs' in album), len(album_links)):]
     # get the valid images links
     img_links = []
-    for al in album_links:
+    for al in new_list:
         page = requests.get(al)
         soup = BeautifulSoup(page.content,'html.parser')
-        title = soup.find('h1',{'class':'photoAlbumTitleV2'}).text
-        print(f"🔭 Scanning {name} [magenta]{title}[/magenta] album...")
+        title = soup.find(class_='photoAlbumTitleV2').contents[0].strip()
+        if title == None:
+            pass
+        print(f"    ➡️ Scanning {name} [magenta]{title}[/magenta] album...")
         images = soup.find_all('a',{'href':True})
         for img in images:
             img_link_suffix = img['href']
-            if 'photo' in img_link_suffix:
+            if 'photo/' in img_link_suffix:
                 img_url = f'https://www.pornhub.com{img_link_suffix}'
                 img_links.append(img_url)
     # downlaod images
-    for image in img_links:
-        checker = image.rsplit('/', 1)[1]
-        page = requests.get(image)
+    for image_link in img_links:
+        checker = image_link.rsplit('/', 1)[1]
+        page = requests.get(image_link)
         soup = BeautifulSoup(page.content,'html.parser')
         model_photos = soup.find_all('img',{'src':True})
-        a = 1
-        for photo in model_photos:
-            if checker in photo:
-                photo_link = photo['scr']
-                photo_url = f'https://www.pornhub.com/{photo_link}'
-                img_data = requests.get(photo_url).content
-                with open(f'{directory}/photos/{name}/photo %s.jpg','wb') as handler:
-                    handler.write(img_data)
-                a = a+1
+        for i in model_photos:
+            if i.has_attr('alt'):
+                if 'photo' not in i['alt']:
+                    if i.has_attr('src'):
+                        image = i['src']
+                        if checker in image:
+                            title = image.rsplit('_', 1)[1]
+                            img_data = requests.get(image).content
+                            folder_dir = f'{directory}/photos/{name}'
+                            if os.path.exists(folder_dir):
+                                pass
+                            else:
+                                os.makedirs(folder_dir)
+                            try:
+                                with open(f'{folder_dir}/{title}.jpg','wb') as handler:
+                                    handler.write(img_data)
+                            except IsADirectoryError:
+                                pass
+
+    print(f'🧲[green] Scraping {name} albums done. Images downloaded[/green]')
 
 if 'playlist' in url:
     playlist()
