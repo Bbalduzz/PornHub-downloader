@@ -207,6 +207,11 @@ def photos():
                                         handler.write(img_data)
                                 except IsADirectoryError:
                                     pass
+    # create pdf with the images                             
+    file_names = os.listdir(folder_dir)
+    images = [ Image.open(f'{folder_dir}/{f}') for f in file_names]
+    pdf_path = f"{folder_dir}/{name}.pdf"
+    images[0].save( pdf_path, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
 
     print(f'🧲[green] Scraping {name} albums done. Images downloaded[/green]')
 
