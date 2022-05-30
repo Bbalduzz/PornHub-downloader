@@ -214,7 +214,7 @@ def photos():
     pdf_path = f"{folder_dir}/{name}.pdf"
     images[0].save( pdf_path, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
 
-    print(f'🧲[green] Scraping {name} albums done. Images downloaded[/green]')
+    print(f'🧲[green] Scraping {name} albums done. Images and PDF downloaded[/green]')
 
 if 'playlist' in url:
     playlist()
