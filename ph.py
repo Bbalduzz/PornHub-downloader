@@ -7,7 +7,7 @@ import requests
 import urllib.request
 from urllib.error import HTTPError
 import os
-from PIl import Image
+from PIL import Image
 
 r = Console()
 
