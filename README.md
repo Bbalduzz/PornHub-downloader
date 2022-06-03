@@ -10,6 +10,18 @@ A simple script to download in local storage videos from the most famous adult s
   - downlaod all videos
   - download albums
 
+## 📝 How to use
+1) install python [https://www.python.org/downloads/]
+2) download the code:
+    - using git: `git clone https://github.com/Bbalduzz/PornHub-downloader.git`
+    - using zip: download the code as zip and extract it
+3) install the needed library
+    - `pip install youtube-dl, rich, bs4, requests, urllib, urllib.request, urllib.error, Pillow`
+4) change the `directory` variable in the script
+5) run the script from the terminal
+6) paste the ph url, the script will do everything
+
+
 ## 🖼 Preview
 <img src="https://github.com/Bbalduzz/PornHub-downloader/blob/main/images/gui.png" width="50%" height="50%">
 <img src="https://github.com/Bbalduzz/PornHub-downloader/blob/main/images/video.png" width="50%" height="50%">
