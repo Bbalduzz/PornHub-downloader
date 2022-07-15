@@ -32,4 +32,4 @@ A simple script to download in local storage videos from the most famous adult s
 1) [youtube_dl](https://github.com/ytdl-org/youtube-dl)
 2) [bs4 aka BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)
 
-♨︎ if u want to buy me a coffee: [☕️](https://www.buymeacoffee.com/Bbalduzz)
+if u want to buy me a coffee: [☕️](https://www.buymeacoffee.com/Bbalduzz)
