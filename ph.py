@@ -225,7 +225,7 @@ def textfile():
         lines = handler.readlines()
         for url_line in lines:
             print(url_line)
-            page = requests.get(url_line)
+            page = requests.get(url_line.strip())
             soup = BeautifulSoup(page.content, 'html.parser')
             try:
                 vid_title = soup.find('span',{'class':'inlineFree'}).contents[0]
