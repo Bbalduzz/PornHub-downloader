@@ -218,6 +218,33 @@ def photos():
     images[0].save( pdf_path, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
 
     print(f'🧲[green] Scraping {name} albums done. Images and PDF downloaded[/green]')
+    
+def textfile():
+    batchfile = url
+    with open(batchfile,'r') as handler:
+        lines = handler.readlines()
+        for url_line in lines:
+            print(url_line)
+            page = requests.get(url_line)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            try:
+                vid_title = soup.find('span',{'class':'inlineFree'}).contents[0]
+            except AttributeError:
+                vid_title = 'Porhub Video'
+            print(f'Video Found:[yellow] {vid_title} [/yellow]')
+            dir = directory+'/videos/%(title)s.%(ext)s'
+            ydl_opts = {
+                'format': 'best',
+                'outtmpl': dir,
+                'nooverwrites': True,
+                'no_warnings': False,
+                'ignoreerrors': True,
+            }
+
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url_line])
+            
+            print(f'🧲[green] {vid_title} has been downloaded[/green]')
 
 if 'playlist' in url:
     playlist()
@@ -225,5 +252,7 @@ elif 'photos' in url:
     photos()
 elif 'pornstar' in url:
     pornstar()
+elif '.txt' in url:
+    textfile()
 else:
     video()
